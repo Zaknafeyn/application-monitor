@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box;
+  }
+  .gridStyle {
+    border: 1px solid rgb(212,212,212);
+    width: 100%;
+    min-height: 300px
+  }
+  .bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url(../img/background.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+  .bg a {
+    display: inline-block;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    margin-left: -52px;
+  }
+  td button {
+    margin: 0;
+  }

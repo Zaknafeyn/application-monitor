@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html ng-app='monitorApp'>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Kottans monitor</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="bower_components/foundation/css/foundation.css">
+
+</head>
+<body ng-controller='mainCtrl'>
+  <div class="bg" ng-hide="auth.user">
+    <a class="button" href="#" ng-click="login()">Login</a>
+  </div>
+  <div ng-show="auth.user">
+    <span >
+    {{auth.user.thirdPartyUserData.login}} | <a href="#" ng-click="logout()">Logout</a>
+    </span>
+    <br />
+    <input type="text" placeholder="Perform quick search" ng-model="filterExpr" />
+    <span ng-if='!(kottans | orderByPriority).length'>
+      You're probably not in whitelist. Be sure to contact <strong>@<a href="https://twitter.com/sudodoki">sudodoki</a></strong> to get access.
+    </span>
+    <table ng-if='(kottans | orderByPriority).length'>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Skype</th>
+          <th>Courses</th>
+          <th title="Accepted T&C"><abbr title="Terms and Conditions">T&C</abbr></th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat='(key, participant) in kottans | orderByPriority | filter:filterExpr'>
+          <td>{{$index}}</td>
+          <td>{{participant.name}}</td>
+          <td>{{participant.email}}</td>
+          <td>{{participant.skype}}</td>
+          <td>{{participant.courses.join(' & ') || participant.courses}}</td>
+          <td>{{participant.are_terms_accepted ? '✓' : '✗'}}</td>
+          <td>
+            <button class='alert' ng-click='deleteByIndex($index)'>Delete</button>
+            <button class='secondary' ng-click='editMode = !editMode'>Edit</button>
+            <form ng-init='newDetails.courses=[]' ng-show='editMode' ng-submit='updateEntry($index, newDetails)'>
+              <label>Name:
+                <input type="text" ng-model='newDetails.name' ng-init='newDetails.name = participant.name'>
+              </label>
+              <label>Email:
+                <input type="text" ng-model='newDetails.email' ng-init='newDetails.email = participant.email'>
+              </label>
+              <label>Skype:
+                <input type="text" ng-model='newDetails.skype' ng-init='newDetails.skype = participant.skype'>
+              </label>
+              <label  ng-repeat='course in ["js", "java", "ruby"]'>
+                {{course}}
+                <input type="checkbox"
+                      name="courses[]"
+                      value="{{course}}"
+                      ng-init='participant.courses.indexOf(course) > -1 && newDetails.courses.push(course)'
+                      ng-checked="participant.courses.indexOf(course) > -1"
+                      ng-click='newDetails.courses.indexOf(course) > -1 ? newDetails.courses.splice(newDetails.courses.indexOf(course), 1) : newDetails.courses.push(course)'
+                >
+              </label>
+              <label>
+                <abbr title="Terms and Conditions">T&C</abbr>
+                <input type="checkbox" ng-true-value=1 ng-false-value=0 ng-model="newDetails.are_terms_accepted" ng-init="newDetails.are_terms_accepted = participant.are_terms_accepted">
+              </label>
+              <input type="submit" class='button primary'>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/firebase/firebase.js"></script>
+  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/angularfire/angularfire.min.js"></script>
+  <script src="bower_components/firebase-simple-login/firebase-simple-login.js"></script>
+
+  <script src="js/mainApp.js"></script>
+
+</body>
+</html>
