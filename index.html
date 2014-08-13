@@ -14,7 +14,7 @@
   </div>
   <div ng-show="auth.user">
     <span >
-    {{auth.user.thirdPartyUserData.login}} | <a href="#" ng-click="logout()">Logout</a>
+    {{auth.user.displayName}} | <a href="#" ng-click="logout()">Logout</a>
     </span>
     <br />
     <input type="text" placeholder="Perform quick search" ng-model="filterExpr" />

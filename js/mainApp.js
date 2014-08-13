@@ -1,4 +1,4 @@
-/* global angular, Firebase, console*/
+/* global angular, Firebase, console */
 (function(){
   'use strict';
   var app = angular.module('monitorApp', ['firebase']);
@@ -14,7 +14,9 @@
     });
 
     $scope.login = function(){
-      auth.$login('github').then(function(){
+      auth.$login('google', {
+        rememberMe: true
+      }).then(function(){
         loadKottans();
       });
     };
@@ -48,7 +50,6 @@
         $scope.kottans.$remove(kottanBeingDeleted.key);
       }
     };
-
   });
 
 })();
