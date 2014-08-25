@@ -17,7 +17,7 @@
     {{auth.user.displayName}} | <a href="#" ng-click="logout()">Logout</a>
     </span>
     <br />
-    <input type="text" placeholder="Perform quick search" ng-model="filterExpr" />
+    <input class="filter-text" type="text" placeholder="Perform quick search" ng-model="filterExpr" />
     <span ng-if='!(kottans | orderByPriority).length'>
       You're probably not in whitelist. Be sure to contact <strong>@<a href="https://twitter.com/sudodoki">sudodoki</a></strong> to get access.
     </span>
