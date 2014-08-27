@@ -18,9 +18,30 @@
     </span>
     <br />
     <input class="filter-text" type="text" placeholder="Perform quick search" ng-model="filterExpr" />
+    <fieldset>
+      <legend>Filter on course</legend>
+      <label class='course-filter'>js<input type="checkbox" ng-model='filterCourses.0' ng-true-value='js'></label>
+      <label class='course-filter'>ruby<input type="checkbox" ng-model='filterCourses.1' ng-true-value='ruby' class='course-filter'></label>
+      <label class='course-filter'>java<input type="checkbox" ng-model='filterCourses.2' ng-true-value='java'></label>
+    </fieldset>
+    <fieldset>
+      <legend>Select matching logic</legend>
+      <label class='course-logic'>
+        <input ng-model='filterCourseCompose' type="radio" name="compose" value="OR">Or
+      </label>
+      <label class='course-logic'>
+        <input ng-model='filterCourseCompose' type="radio" name="compose" value="AND">And (strict match)
+      </label>
+    </fieldset>
+
     <span ng-if='!(kottans | orderByPriority).length'>
       You're probably not in whitelist. Be sure to contact <strong>@<a href="https://twitter.com/sudodoki">sudodoki</a></strong> to get access.
     </span>
+    <div class='export' ng-if='currentFilteredKottans.length'>
+      Will be exporting: {{ currentFilteredKottans.length }}.
+      <button class='success' ng-click='exportDataToSpreadsheet(currentFilteredKottans)'>Export</button>
+      <a target='_blank' href='{{lastExportLink}}' ng-if='lastExportLink'>Here's your export.</a>
+    </div>
     <table ng-if='(kottans | orderByPriority).length'>
       <thead>
         <tr>
@@ -34,7 +55,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat='(key, participant) in kottans | orderByPriority | filter:filterExpr'>
+        <tr ng-repeat='(key, participant) in $parent.currentFilteredKottans = (kottans | orderByPriority | filter:filterExpr | filter:courseFilterFunction)'>
           <td>{{$index}}</td>
           <td>{{participant.name}}</td>
           <td>{{participant.email}}</td>
