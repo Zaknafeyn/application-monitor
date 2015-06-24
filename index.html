@@ -91,6 +91,7 @@
                 <input type="checkbox" ng-true-value=1 ng-false-value=0 ng-model="newDetails.are_terms_accepted" ng-init="newDetails.are_terms_accepted = participant.are_terms_accepted">
               </label>
               <input type="submit" class='button primary'>
+              <button class='secondary' ng-click="editMode = !editMode">Cancel</button>
             </form>
           </td>
         </tr>
