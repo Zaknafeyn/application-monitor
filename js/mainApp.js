@@ -41,7 +41,7 @@
 
     function getCsvData(kottans) {
       var CSV = [
-        '"name", "email", "skype", "js", "java", "ruby"'
+        '"name", "email", "skype", "js", "java", "ruby", "csharp"'
       ];
       function encode_utf8(s) {
         return unescape( encodeURIComponent( s ) );
@@ -54,7 +54,8 @@
         res += '"' + kottan.skype + '", ';
         res += '"' + (courses.indexOf('js') > -1 ? 'TRUE' : 'FALSE') + '", '
         res += '"' + (courses.indexOf('java') > -1 ? 'TRUE' : 'FALSE') + '", '
-        res += '"' + (courses.indexOf('ruby') > -1 ? 'TRUE' : 'FALSE') + '"'
+        res += '"' + (courses.indexOf('ruby') > -1 ? 'TRUE' : 'FALSE') + '", '
+        res += '"' + (courses.indexOf('csharp') > -1 ? 'TRUE' : 'FALSE') + '"'
         CSV.push(res)
       })
       CSV = CSV.join('\n');
